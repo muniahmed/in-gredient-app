@@ -13,6 +13,10 @@ const ListScreen = () => {
         loadListData();
     }, []);
 
+    useEffect(() => {
+        saveListData();
+    }, [listData])
+
     const loadListData = async () => {
         try {
             const storedData = await AsyncStorage.getItem('listData');
@@ -36,6 +40,7 @@ const ListScreen = () => {
         if (inputText.trim() !== '') {
             setListData([...listData, inputText]);
             setInputText('');
+
         }
     };
 
@@ -43,6 +48,7 @@ const ListScreen = () => {
         const updatedList = [...listData];
         updatedList.splice(index, 1);
         setListData(updatedList);
+        saveListData();
     };
 
     return (
@@ -65,7 +71,7 @@ const ListScreen = () => {
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
-            <Button title="Save List" onPress={saveListData} />
+            {/* <Button title="Save List" onPress={saveListData} /> */}
         </View>
     );
 };
